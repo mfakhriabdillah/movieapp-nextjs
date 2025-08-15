@@ -2,12 +2,14 @@
 
 A dynamic web application built with Next.js and React that allows users to discover movies and manage a personal watchlist using The Movie Database (TMDB) API.
 
-This application was specifically designed as a testbed for cloud-native development, featuring:
-
-- Real-time API Integration: Fetches and displays movie, TV show, and recommendation data.
-- State Management: Uses React hooks for managing application state, including search results and a persistent watchlist saved to localStorage.
-- Built for Observability: Includes dedicated features to simulate both client-side and API errors, allowing developers to test and validate monitoring, logging, and tracing pipelines in a Kubernetes environment.
-- Containerized for GKE: Comes with an optimized, multi-stage Dockerfile ready for deployment on Google Kubernetes Engine (GKE).
+## Features
+- **Movie & TV Show Discovery**: Search for any movie or TV show in the TMDB database.
+- **Top Rated Recommendations**: View carousels of the top-rated movies and TV shows on the main page.
+- **Personal Watchlist**: Add or remove items to a personal watchlist that persists across sessions using localStorage.
+- **Multi-Page Navigation**: A 3-page structure (Discover, Watchlist, Details) to simulate real-world user navigation.
+- **Dynamic Routing**: View detailed information for each movie or TV show on a unique page.
+- **Error Simulation**: Intentionally trigger frontend and API errors to test monitoring and logging tools.
+- **Containerized**: Includes an optimized, multi-stage Dockerfile ready for deployment on Google Kubernetes Engine (GKE).
 
 # How to Use This Setup
 
@@ -18,11 +20,11 @@ This application was specifically designed as a testbed for cloud-native develop
 NEXT_PUBLIC_TMDB_API_KEY=your_key_here
 ```
 
-## Run Locally:
+## Available Scripts:
 
 - Run `npm install` if you haven't already.
-
-- Run `npm run dev`. The app will automatically pick up the key from your .env.local file.
+- Run `npm run dev`. The app will automatically pick up the key from your .env.local file.  
+- `npm run start`: Starts the production server (requires `npm run build` to be run first).
 
 ## Build for Production (Docker):
 
@@ -31,6 +33,25 @@ When you build your Docker image, you'll pass the API key as a build argument. U
 ```Bash
 docker build --build-arg NEXT_PUBLIC_TMDB_API_KEY=your_key_here -t your-image-name
 ```
+
+## Deploying to Google Kubernetes Engine (GKE)
+This application is ready to be deployed to GKE.
+
+- Push your Docker image to a container registry like Google Artifact Registry.
+- Update deployment.yaml: Change the image field to point to your image in the registry.
+- Apply the Kubernetes manifests:
+    ```bash
+    # Make sure your kubectl is configured to your GKE cluster
+    kubectl apply -f deployment.yaml
+    kubectl apply -f service.yaml
+    ```
+
+- Get the public IP:
+Find the external IP address of your service to access the application.
+    ```bash
+    kubectl get service movie-app-service
+    ```
+
 
 ## Set your project ID
 ```bash
