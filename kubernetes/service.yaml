@@ -1,0 +1,18 @@
+# service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  # A unique name for your service
+  name: movie-app-service
+spec:
+  # This makes the service accessible from the internet via a GCP Load Balancer
+  type: LoadBalancer
+  selector:
+    # This must match the 'app' label in your deployment.yaml
+    app: movie-app
+  ports:
+  - protocol: TCP
+    # The port the Load Balancer will listen on (e.g., http)
+    port: 80
+    # The port on the pod to forward traffic to
+    targetPort: 3000
